@@ -4,7 +4,11 @@ import React, { useEffect, useState } from 'react';
 import { Image, Linking, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Animated, { FadeIn, FadeInLeft, FadeInUp } from 'react-native-reanimated';
 
-const HeroNative = () => {
+interface HeroNativeProps {
+    onNavigate?: (section: string) => void;
+}
+
+const HeroNative = ({ onNavigate }: HeroNativeProps) => {
     // Profile images carousel
     const images = [
         require('@/assets/images/PIC1.jpg'),
@@ -24,12 +28,15 @@ const HeroNative = () => {
     }, [images.length]);
 
     const handleContactPress = () => {
-        // This will scroll to contact section - we'll handle this via ref in main component
-        console.log('Contact pressed');
+        if (onNavigate) {
+            onNavigate('contact');
+        }
     };
 
     const handleLearnMore = () => {
-        console.log('Learn more pressed');
+        if (onNavigate) {
+            onNavigate('about');
+        }
     };
 
     return (

@@ -1,91 +1,72 @@
 import { Colors, Spacing, Typography } from '@/constants/Styles';
 import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
-import { Linking, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Image, Linking, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 export default function ExploreScreen() {
-  const resources = [
+  const projects = [
     {
-      title: 'Expo Documentation',
-      description: 'Learn about Expo and React Native development',
-      url: 'https://docs.expo.dev',
-      icon: 'book',
+      name: 'Project One',
+      description: 'A brief description of project one. It does amazing things.',
+      repoLink: 'https://github.com/Adiiiicodes',
+      thumbnail: require('@/assets/images/PIC1.jpg'),
+      technologies: ['React Native', 'TypeScript'],
     },
     {
-      title: 'React Native Docs',
-      description: 'Official React Native documentation',
-      url: 'https://reactnative.dev/docs/getting-started',
-      icon: 'logo-react',
+      name: 'Project Two',
+      description: 'This is the second project, focusing on backend development.',
+      repoLink: 'https://github.com/Adiiiicodes',
+      thumbnail: require('@/assets/images/PIC2.png'),
+      technologies: ['Node.js', 'Express'],
     },
     {
-      title: 'My Portfolio Website',
-      description: 'Visit the web version of this portfolio',
-      url: 'https://nextechdigital.in',
-      icon: 'globe',
+      name: 'Project Three',
+      description: 'A full-stack application with a modern frontend.',
+      repoLink: 'https://github.com/Adiiiicodes',
+      thumbnail: require('@/assets/images/PIC3.png'),
+      technologies: ['React', 'FastAPI', 'PostgreSQL'],
     },
     {
-      title: 'GitHub Profile',
-      description: 'Check out my open source projects',
-      url: 'https://github.com/Adiiiicodes',
-      icon: 'logo-github',
+      name: 'Project Four',
+      description: 'A mobile app for connecting people.',
+      repoLink: 'https://github.com/Adiiiicodes',
+      thumbnail: require('@/assets/images/PIC4.png'),
+      technologies: ['Flutter', 'Firebase'],
     },
   ];
 
   return (
     <ScrollView style={styles.container}>
       <View style={styles.header}>
-        <Ionicons name="compass" size={64} color={Colors.primary} />
-        <Text style={styles.title}>Explore</Text>
+        <Ionicons name="rocket" size={64} color={Colors.primary} />
+        <Text style={styles.title}>My Projects</Text>
         <Text style={styles.subtitle}>
-          Useful resources and links for learning and development
+          A collection of my work, from web to mobile.
         </Text>
       </View>
 
       <View style={styles.content}>
-        <Text style={styles.sectionTitle}>Resources</Text>
-
-        {resources.map((resource, index) => (
-          <TouchableOpacity
-            key={index}
-            style={styles.resourceCard}
-            onPress={() => Linking.openURL(resource.url)}
-          >
-            <View style={styles.iconContainer}>
-              <Ionicons name={resource.icon as any} size={32} color={Colors.primary} />
-            </View>
-            <View style={styles.resourceContent}>
-              <Text style={styles.resourceTitle}>{resource.title}</Text>
-              <Text style={styles.resourceDescription}>{resource.description}</Text>
-            </View>
-            <Ionicons name="chevron-forward" size={24} color={Colors.gray400} />
-          </TouchableOpacity>
-        ))}
-
-        <View style={styles.infoSection}>
-          <Text style={styles.infoTitle}>About This App</Text>
-          <Text style={styles.infoText}>
-            This is a native Android portfolio app built with React Native and Expo.
-            It showcases my work, skills, experience, and provides easy ways to get in touch.
-          </Text>
-
-          <View style={styles.techStack}>
-            <Text style={styles.techTitle}>Built With:</Text>
-            <View style={styles.techTags}>
-              <View style={styles.tag}>
-                <Text style={styles.tagText}>React Native</Text>
+        {projects.map((project, index) => (
+          <View key={index} style={styles.projectCard}>
+            <Image source={project.thumbnail} style={styles.thumbnail} />
+            <View style={styles.projectInfo}>
+              <View style={styles.projectHeader}>
+                <Text style={styles.projectName}>{project.name}</Text>
+                <TouchableOpacity onPress={() => Linking.openURL(project.repoLink)}>
+                  <Ionicons name="logo-github" size={24} color={Colors.gray400} />
+                </TouchableOpacity>
               </View>
-              <View style={styles.tag}>
-                <Text style={styles.tagText}>Expo</Text>
-              </View>
-              <View style={styles.tag}>
-                <Text style={styles.tagText}>TypeScript</Text>
-              </View>
-              <View style={styles.tag}>
-                <Text style={styles.tagText}>Reanimated</Text>
+              <Text style={styles.projectDescription}>{project.description}</Text>
+              <View style={styles.techTags}>
+                {project.technologies.map((tech, i) => (
+                  <View key={i} style={styles.tag}>
+                    <Text style={styles.tagText}>{tech}</Text>
+                  </View>
+                ))}
               </View>
             </View>
           </View>
-        </View>
+        ))}
       </View>
     </ScrollView>
   );
@@ -117,67 +98,33 @@ const styles = StyleSheet.create({
   content: {
     padding: Spacing.md,
   },
-  sectionTitle: {
-    ...Typography.h3,
-    color: Colors.foreground,
+  projectCard: {
+    backgroundColor: Colors.secondary,
+    borderRadius: 12,
     marginBottom: Spacing.lg,
-    marginTop: Spacing.md,
+    overflow: 'hidden',
   },
-  resourceCard: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: Colors.secondary,
-    borderRadius: 12,
+  thumbnail: {
+    width: '100%',
+    height: 200,
+  },
+  projectInfo: {
     padding: Spacing.md,
-    marginBottom: Spacing.md,
-    gap: Spacing.md,
   },
-  iconContainer: {
-    width: 56,
-    height: 56,
-    borderRadius: 28,
-    backgroundColor: Colors.primary + '20',
-    justifyContent: 'center',
+  projectHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
+    marginBottom: Spacing.sm,
   },
-  resourceContent: {
-    flex: 1,
-  },
-  resourceTitle: {
-    ...Typography.body,
-    fontWeight: '600',
-    color: Colors.foreground,
-    marginBottom: 4,
-  },
-  resourceDescription: {
-    ...Typography.caption,
-    color: Colors.gray400,
-  },
-  infoSection: {
-    backgroundColor: Colors.secondary,
-    borderRadius: 12,
-    padding: Spacing.lg,
-    marginTop: Spacing.lg,
-  },
-  infoTitle: {
+  projectName: {
     ...Typography.h4,
     color: Colors.foreground,
-    marginBottom: Spacing.md,
   },
-  infoText: {
+  projectDescription: {
     ...Typography.body,
     color: Colors.gray300,
-    lineHeight: 24,
-    marginBottom: Spacing.lg,
-  },
-  techStack: {
-    marginTop: Spacing.md,
-  },
-  techTitle: {
-    ...Typography.body,
-    fontWeight: '600',
-    color: Colors.foreground,
-    marginBottom: Spacing.sm,
+    marginBottom: Spacing.md,
   },
   techTags: {
     flexDirection: 'row',

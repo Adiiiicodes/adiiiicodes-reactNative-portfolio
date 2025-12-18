@@ -2,13 +2,30 @@ import { Colors, Spacing, Typography } from '@/constants/Styles';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react';
-import { Linking, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, Linking, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Animated, { FadeInLeft, FadeInRight } from 'react-native-reanimated';
 
 const AboutNative = () => {
-    const handleDownloadResume = () => {
-        // Open resume PDF - you'll need to add the PDF to assets or host it
-        Linking.openURL('https://your-resume-url.pdf');
+    const handleDownloadResume = async () => {
+        try {
+            // For PDFs in assets, the simplest approach is to host it online
+            // and open it with the default PDF viewer
+            const resumeUrl = 'https://www.adityanalawade.fun/adi_resume.pdf';
+            // Replace with your actual hosted PDF URL (Google Drive, Dropbox, your server, etc.)
+
+            // Alternative: Open locally hosted PDF if you set up a web server for it
+            // const resumeUrl = 'file:///android_asset/adi_resume.pdf';
+
+            const canOpen = await Linking.canOpenURL(resumeUrl);
+            if (canOpen) {
+                await Linking.openURL(resumeUrl);
+            } else {
+                Alert.alert('Error', 'Cannot open PDF viewer');
+            }
+        } catch (error) {
+            console.error('Error opening resume:', error);
+            Alert.alert('Error', 'Failed to open resume. Please try again.');
+        }
     };
 
     return (
@@ -77,7 +94,7 @@ const AboutNative = () => {
                     </View>
 
                     <TouchableOpacity style={styles.resumeButton} onPress={handleDownloadResume}>
-                        <Text style={styles.resumeButtonText}>Download Resume</Text>
+                        <Text style={styles.resumeButtonText}>View Resume</Text>
                     </TouchableOpacity>
                 </Animated.View>
             </View>
