@@ -1,112 +1,200 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+import { Colors, Spacing, Typography } from '@/constants/Styles';
+import { Ionicons } from '@expo/vector-icons';
+import React from 'react';
+import { Linking, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-import { Collapsible } from '@/components/ui/collapsible';
-import { ExternalLink } from '@/components/external-link';
-import ParallaxScrollView from '@/components/parallax-scroll-view';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { IconSymbol } from '@/components/ui/icon-symbol';
-import { Fonts } from '@/constants/theme';
+export default function ExploreScreen() {
+  const resources = [
+    {
+      title: 'Expo Documentation',
+      description: 'Learn about Expo and React Native development',
+      url: 'https://docs.expo.dev',
+      icon: 'book',
+    },
+    {
+      title: 'React Native Docs',
+      description: 'Official React Native documentation',
+      url: 'https://reactnative.dev/docs/getting-started',
+      icon: 'logo-react',
+    },
+    {
+      title: 'My Portfolio Website',
+      description: 'Visit the web version of this portfolio',
+      url: 'https://nextechdigital.in',
+      icon: 'globe',
+    },
+    {
+      title: 'GitHub Profile',
+      description: 'Check out my open source projects',
+      url: 'https://github.com/Adiiiicodes',
+      icon: 'logo-github',
+    },
+  ];
 
-export default function TabTwoScreen() {
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#D0D0D0', dark: '#353636' }}
-      headerImage={
-        <IconSymbol
-          size={310}
-          color="#808080"
-          name="chevron.left.forwardslash.chevron.right"
-          style={styles.headerImage}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText
-          type="title"
-          style={{
-            fontFamily: Fonts.rounded,
-          }}>
-          Explore
-        </ThemedText>
-      </ThemedView>
-      <ThemedText>This app includes example code to help you get started.</ThemedText>
-      <Collapsible title="File-based routing">
-        <ThemedText>
-          This app has two screens:{' '}
-          <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> and{' '}
-          <ThemedText type="defaultSemiBold">app/(tabs)/explore.tsx</ThemedText>
-        </ThemedText>
-        <ThemedText>
-          The layout file in <ThemedText type="defaultSemiBold">app/(tabs)/_layout.tsx</ThemedText>{' '}
-          sets up the tab navigator.
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/router/introduction">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Android, iOS, and web support">
-        <ThemedText>
-          You can open this project on Android, iOS, and the web. To open the web version, press{' '}
-          <ThemedText type="defaultSemiBold">w</ThemedText> in the terminal running this project.
-        </ThemedText>
-      </Collapsible>
-      <Collapsible title="Images">
-        <ThemedText>
-          For static images, you can use the <ThemedText type="defaultSemiBold">@2x</ThemedText> and{' '}
-          <ThemedText type="defaultSemiBold">@3x</ThemedText> suffixes to provide files for
-          different screen densities
-        </ThemedText>
-        <Image
-          source={require('@/assets/images/react-logo.png')}
-          style={{ width: 100, height: 100, alignSelf: 'center' }}
-        />
-        <ExternalLink href="https://reactnative.dev/docs/images">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Light and dark mode components">
-        <ThemedText>
-          This template has light and dark mode support. The{' '}
-          <ThemedText type="defaultSemiBold">useColorScheme()</ThemedText> hook lets you inspect
-          what the user&apos;s current color scheme is, and so you can adjust UI colors accordingly.
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/develop/user-interface/color-themes/">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Animations">
-        <ThemedText>
-          This template includes an example of an animated component. The{' '}
-          <ThemedText type="defaultSemiBold">components/HelloWave.tsx</ThemedText> component uses
-          the powerful{' '}
-          <ThemedText type="defaultSemiBold" style={{ fontFamily: Fonts.mono }}>
-            react-native-reanimated
-          </ThemedText>{' '}
-          library to create a waving hand animation.
-        </ThemedText>
-        {Platform.select({
-          ios: (
-            <ThemedText>
-              The <ThemedText type="defaultSemiBold">components/ParallaxScrollView.tsx</ThemedText>{' '}
-              component provides a parallax effect for the header image.
-            </ThemedText>
-          ),
-        })}
-      </Collapsible>
-    </ParallaxScrollView>
+    <ScrollView style={styles.container}>
+      <View style={styles.header}>
+        <Ionicons name="compass" size={64} color={Colors.primary} />
+        <Text style={styles.title}>Explore</Text>
+        <Text style={styles.subtitle}>
+          Useful resources and links for learning and development
+        </Text>
+      </View>
+
+      <View style={styles.content}>
+        <Text style={styles.sectionTitle}>Resources</Text>
+
+        {resources.map((resource, index) => (
+          <TouchableOpacity
+            key={index}
+            style={styles.resourceCard}
+            onPress={() => Linking.openURL(resource.url)}
+          >
+            <View style={styles.iconContainer}>
+              <Ionicons name={resource.icon as any} size={32} color={Colors.primary} />
+            </View>
+            <View style={styles.resourceContent}>
+              <Text style={styles.resourceTitle}>{resource.title}</Text>
+              <Text style={styles.resourceDescription}>{resource.description}</Text>
+            </View>
+            <Ionicons name="chevron-forward" size={24} color={Colors.gray400} />
+          </TouchableOpacity>
+        ))}
+
+        <View style={styles.infoSection}>
+          <Text style={styles.infoTitle}>About This App</Text>
+          <Text style={styles.infoText}>
+            This is a native Android portfolio app built with React Native and Expo.
+            It showcases my work, skills, experience, and provides easy ways to get in touch.
+          </Text>
+
+          <View style={styles.techStack}>
+            <Text style={styles.techTitle}>Built With:</Text>
+            <View style={styles.techTags}>
+              <View style={styles.tag}>
+                <Text style={styles.tagText}>React Native</Text>
+              </View>
+              <View style={styles.tag}>
+                <Text style={styles.tagText}>Expo</Text>
+              </View>
+              <View style={styles.tag}>
+                <Text style={styles.tagText}>TypeScript</Text>
+              </View>
+              <View style={styles.tag}>
+                <Text style={styles.tagText}>Reanimated</Text>
+              </View>
+            </View>
+          </View>
+        </View>
+      </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  headerImage: {
-    color: '#808080',
-    bottom: -90,
-    left: -35,
-    position: 'absolute',
+  container: {
+    flex: 1,
+    backgroundColor: Colors.background,
   },
-  titleContainer: {
+  header: {
+    alignItems: 'center',
+    paddingVertical: Spacing.xxl,
+    paddingHorizontal: Spacing.md,
+    backgroundColor: Colors.gray800,
+  },
+  title: {
+    ...Typography.h1,
+    color: Colors.foreground,
+    marginTop: Spacing.md,
+    marginBottom: Spacing.sm,
+  },
+  subtitle: {
+    ...Typography.body,
+    color: Colors.gray400,
+    textAlign: 'center',
+    maxWidth: '80%',
+  },
+  content: {
+    padding: Spacing.md,
+  },
+  sectionTitle: {
+    ...Typography.h3,
+    color: Colors.foreground,
+    marginBottom: Spacing.lg,
+    marginTop: Spacing.md,
+  },
+  resourceCard: {
     flexDirection: 'row',
-    gap: 8,
+    alignItems: 'center',
+    backgroundColor: Colors.secondary,
+    borderRadius: 12,
+    padding: Spacing.md,
+    marginBottom: Spacing.md,
+    gap: Spacing.md,
+  },
+  iconContainer: {
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    backgroundColor: Colors.primary + '20',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  resourceContent: {
+    flex: 1,
+  },
+  resourceTitle: {
+    ...Typography.body,
+    fontWeight: '600',
+    color: Colors.foreground,
+    marginBottom: 4,
+  },
+  resourceDescription: {
+    ...Typography.caption,
+    color: Colors.gray400,
+  },
+  infoSection: {
+    backgroundColor: Colors.secondary,
+    borderRadius: 12,
+    padding: Spacing.lg,
+    marginTop: Spacing.lg,
+  },
+  infoTitle: {
+    ...Typography.h4,
+    color: Colors.foreground,
+    marginBottom: Spacing.md,
+  },
+  infoText: {
+    ...Typography.body,
+    color: Colors.gray300,
+    lineHeight: 24,
+    marginBottom: Spacing.lg,
+  },
+  techStack: {
+    marginTop: Spacing.md,
+  },
+  techTitle: {
+    ...Typography.body,
+    fontWeight: '600',
+    color: Colors.foreground,
+    marginBottom: Spacing.sm,
+  },
+  techTags: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: Spacing.sm,
+  },
+  tag: {
+    backgroundColor: Colors.primary + '20',
+    paddingHorizontal: Spacing.md,
+    paddingVertical: Spacing.xs,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: Colors.primary + '40',
+  },
+  tagText: {
+    ...Typography.caption,
+    color: Colors.primary,
+    fontWeight: '600',
   },
 });
